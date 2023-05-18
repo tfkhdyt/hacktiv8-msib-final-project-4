@@ -1,4 +1,4 @@
-module github.com/tfkhdyt/hacktiv8-msib-final-project-4
+module hacktiv8-msib-final-project-4
 
 go 1.20
 
