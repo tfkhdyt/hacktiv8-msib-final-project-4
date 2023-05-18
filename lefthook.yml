@@ -1,0 +1,8 @@
+pre-commit:
+  commands:
+    lint:
+      run: revive ./...
+pre-push:
+  commands:
+    lint:
+      run: revive ./...
