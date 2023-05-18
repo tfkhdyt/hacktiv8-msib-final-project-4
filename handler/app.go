@@ -1,8 +1,10 @@
 package handler
 
 import (
-	"fmt"
 	"hacktiv8-msib-final-project-4/database"
+	"hacktiv8-msib-final-project-4/handler/httphandler"
+	"hacktiv8-msib-final-project-4/repository/userrepository/userpg"
+	"hacktiv8-msib-final-project-4/service"
 	"log"
 	"os"
 
@@ -15,11 +17,15 @@ func StartApp() {
 		port = "8080"
 	}
 
+	r := gin.Default()
+
 	db := database.GetPostgresInstance()
 
-	fmt.Println(db)
+	userRepo := userpg.NewUserPG(db)
+	userService := service.NewUserService(userRepo)
+	userHandler := httphandler.NewUserHandler(userService)
 
-	r := gin.Default()
+	r.POST("/users/register", userHandler.Register)
 
 	log.Fatalln(r.Run(":" + port))
 }
