@@ -1,4 +1,7 @@
-dev:
+dev: database
 	watchexec -c -r -e go -- go run .
 
-.PHONY: dev
+database: 
+	systemctl is-active --quiet postgresql || systemctl start postgresql
+
+.PHONY: dev database

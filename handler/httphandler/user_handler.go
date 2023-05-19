@@ -5,6 +5,7 @@ import (
 	"hacktiv8-msib-final-project-4/entity"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/service"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -72,6 +73,8 @@ func (u *UserHandler) TopUp(ctx *gin.Context) {
 		ctx.JSON(err.StatusCode(), err)
 		return
 	}
+
+	log.Println("Response from handler:", response)
 
 	ctx.JSON(http.StatusOK, response)
 }
