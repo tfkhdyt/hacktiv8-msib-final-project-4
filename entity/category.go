@@ -5,5 +5,5 @@ import "gorm.io/gorm"
 type Category struct {
 	gorm.Model
 	Type              string `gorm:"not null"`
-	SoldProductAmount uint
+	SoldProductAmount uint   `gorm:"default:0"`
 }
