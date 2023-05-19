@@ -8,4 +8,6 @@ import (
 type UserRepository interface {
 	Register(user *entity.User) (*entity.User, errs.MessageErr)
 	GetUserByEmail(email string) (*entity.User, errs.MessageErr)
+	GetUserByID(id uint) (*entity.User, errs.MessageErr)
+	TopUp(id uint, balance uint) (*entity.User, errs.MessageErr)
 }

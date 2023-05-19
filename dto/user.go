@@ -38,3 +38,11 @@ type LoginRequest struct {
 type LoginResponse struct {
 	Token string `json:"token" binding:"jwt"`
 }
+
+type TopUpRequest struct {
+	Balance uint `json:"balance" binding:"required,min=0,max=100000000"`
+}
+
+type TopUpResponse struct {
+	Message string `json:"message"`
+}

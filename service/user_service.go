@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"hacktiv8-msib-final-project-4/dto"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/userrepository"
@@ -9,6 +10,7 @@ import (
 type UserService interface {
 	Register(payload *dto.RegisterRequest) (*dto.RegisterResponse, errs.MessageErr)
 	Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs.MessageErr)
+	TopUp(id uint, payload *dto.TopUpRequest) (*dto.TopUpResponse, errs.MessageErr)
 }
 
 type userService struct {
@@ -59,6 +61,19 @@ func (u *userService) Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs
 	}
 
 	response := &dto.LoginResponse{Token: token}
+
+	return response, nil
+}
+
+func (u *userService) TopUp(id uint, payload *dto.TopUpRequest) (*dto.TopUpResponse, errs.MessageErr) {
+	result, err := u.userRepo.TopUp(id, payload.Balance)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.TopUpResponse{
+		Message: fmt.Sprintf("Your balance has been successfully updated to Rp %d", result.Balance),
+	}
 
 	return response, nil
 }
