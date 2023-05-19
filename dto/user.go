@@ -29,3 +29,12 @@ type RegisterResponse struct {
 	Balance   uint      `json:"balance"`
 	CreatedAt time.Time `json:"created_at"`
 }
+
+type LoginRequest struct {
+	Email    string `json:"email" binding:"email,required"`
+	Password string `json:"password" binding:"required,min=6"`
+}
+
+type LoginResponse struct {
+	Token string `json:"token" binding:"jwt"`
+}

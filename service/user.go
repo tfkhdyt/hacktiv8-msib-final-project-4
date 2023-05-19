@@ -8,6 +8,7 @@ import (
 
 type UserService interface {
 	Register(payload *dto.RegisterRequest) (*dto.RegisterResponse, errs.MessageErr)
+	Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs.MessageErr)
 }
 
 type userService struct {
@@ -38,6 +39,26 @@ func (u *userService) Register(payload *dto.RegisterRequest) (*dto.RegisterRespo
 		Balance:   registeredUser.Balance,
 		CreatedAt: registeredUser.CreatedAt,
 	}
+
+	return response, nil
+}
+
+func (u *userService) Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs.MessageErr) {
+	user, err := u.userRepo.GetUserByEmail(payload.Email)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := user.ComparePassword(payload.Password); err != nil {
+		return nil, err
+	}
+
+	token, err2 := user.CreateToken()
+	if err2 != nil {
+		return nil, err2
+	}
+
+	response := &dto.LoginResponse{Token: token}
 
 	return response, nil
 }
