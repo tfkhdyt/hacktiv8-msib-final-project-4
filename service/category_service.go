@@ -8,6 +8,7 @@ import (
 
 type CategoryService interface {
 	CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr)
+	GetAllCategories() ([]dto.GetAllCategoriesResponse, errs.MessageErr)
 }
 
 type categoryService struct {
@@ -31,6 +32,26 @@ func (c *categoryService) CreateCategory(payload *dto.CreateCategoryRequest) (*d
 		Type:              createdCategory.Type,
 		SoldProductAmount: createdCategory.SoldProductAmount,
 		CreatedAt:         createdCategory.CreatedAt,
+	}
+
+	return response, nil
+}
+
+func (c *categoryService) GetAllCategories() ([]dto.GetAllCategoriesResponse, errs.MessageErr) {
+	categories, err := c.categoryRepo.GetAllCategories()
+	if err != nil {
+		return nil, err
+	}
+
+	response := []dto.GetAllCategoriesResponse{}
+	for _, category := range categories {
+		response = append(response, dto.GetAllCategoriesResponse{
+			ID:                category.ID,
+			Type:              category.Type,
+			SoldProductAmount: category.SoldProductAmount,
+			CreatedAt:         category.CreatedAt,
+			UpdatedAt:         category.UpdatedAt,
+		})
 	}
 
 	return response, nil

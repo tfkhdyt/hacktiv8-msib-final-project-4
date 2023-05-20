@@ -24,7 +24,9 @@ func StartApp() {
 	r.POST("/users/login", userHandler.Login)
 	r.PATCH("/users/topup", authService.Authentication(), userHandler.TopUp)
 
-	r.POST("/categories", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.CreateCategory)
+	r.Use(authService.Authentication(), authService.AdminAuthorization())
+	r.POST("/categories", categoryHandler.CreateCategory)
+	r.GET("/categories", categoryHandler.GetAllCategories)
 
 	log.Fatalln(r.Run(":" + port))
 }
