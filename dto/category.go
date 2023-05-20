@@ -22,3 +22,12 @@ type CreateCategoryResponse struct {
 	SoldProductAmount uint      `json:"sold_product_amount"`
 	CreatedAt         time.Time `json:"created_at"`
 }
+
+type GetAllCategoriesResponse struct {
+	ID                uint          `json:"id"`
+	Type              string        `json:"type"`
+	SoldProductAmount uint          `json:"sold_product_amount"`
+	CreatedAt         time.Time     `json:"created_at"`
+	UpdatedAt         time.Time     `json:"updated_at"`
+	Products          []ProductData `json:"products"`
+}
