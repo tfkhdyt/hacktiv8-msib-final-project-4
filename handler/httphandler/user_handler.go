@@ -49,6 +49,8 @@ func (u *UserHandler) Login(ctx *gin.Context) {
 		return
 	}
 
+	ctx.SetCookie("token", token.Token, 3600, "/", "", false, true)
+
 	ctx.JSON(http.StatusOK, token)
 }
 
