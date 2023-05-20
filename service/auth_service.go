@@ -23,10 +23,16 @@ func NewAuthService(userRepo userrepository.UserRepository) AuthService {
 
 func (a *authService) Authentication() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		bearerToken := ctx.GetHeader("Authorization")
+		var bearerToken string
+
+		cookie, _ := ctx.Cookie("token")
+		if cookie != "" {
+			bearerToken = "Bearer " + cookie
+		} else {
+			bearerToken = ctx.GetHeader("Authorization")
+		}
 
 		var user entity.User
-
 		if err := user.ValidateToken(bearerToken); err != nil {
 			ctx.AbortWithStatusJSON(err.StatusCode(), err)
 			return
