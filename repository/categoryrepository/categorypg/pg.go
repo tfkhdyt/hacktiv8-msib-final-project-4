@@ -54,3 +54,11 @@ func (c *categoryPG) UpdateCategory(oldCategory *entity.Category, newCategory *e
 
 	return oldCategory, nil
 }
+
+func (c *categoryPG) DeleteCategory(category *entity.Category) errs.MessageErr {
+	if err := c.db.Delete(category).Error; err != nil {
+		return errs.NewInternalServerError(fmt.Sprintf("Failed to delete category with id %d", category.ID))
+	}
+
+	return nil
+}

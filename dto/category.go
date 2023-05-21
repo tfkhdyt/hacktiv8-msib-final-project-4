@@ -46,3 +46,7 @@ type UpdateCategoryResponse struct {
 	SoldProductAmount uint      `json:"sold_product_amount"`
 	UpdatedAt         time.Time `json:"updated_at"`
 }
+
+type DeleteCategoryResponse struct {
+	Message string `json:"message"`
+}
