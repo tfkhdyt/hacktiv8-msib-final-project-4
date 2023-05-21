@@ -5,6 +5,7 @@ import (
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,4 +43,29 @@ func (c *CategoryHandler) GetAllCategories(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, categories)
+}
+
+func (c *CategoryHandler) UpdateCategory(ctx *gin.Context) {
+	categoryID := ctx.Param("categoryID")
+	categoryIDUint, err := strconv.ParseUint(categoryID, 10, 32)
+	if err != nil {
+		validationError := errs.NewBadRequest("Category id should be in unsigned integer")
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	var reqBody dto.UpdateCategoryRequest
+	if err := ctx.ShouldBindJSON(&reqBody); err != nil {
+		validationError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	updatedCategory, updateErr := c.categoryService.UpdateCategory(uint(categoryIDUint), &reqBody)
+	if updateErr != nil {
+		ctx.JSON(updateErr.StatusCode(), updateErr)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedCategory)
 }
