@@ -31,3 +31,18 @@ type GetAllCategoriesResponse struct {
 	UpdatedAt         time.Time     `json:"updated_at"`
 	Products          []ProductData `json:"products"`
 }
+
+type UpdateCategoryRequest CreateCategoryRequest
+
+func (c *UpdateCategoryRequest) ToEntity() *entity.Category {
+	return &entity.Category{
+		Type: c.Type,
+	}
+}
+
+type UpdateCategoryResponse struct {
+	ID                uint      `json:"id"`
+	Type              string    `json:"type"`
+	SoldProductAmount uint      `json:"sold_product_amount"`
+	UpdatedAt         time.Time `json:"updated_at"`
+}
