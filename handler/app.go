@@ -28,6 +28,7 @@ func StartApp() {
 	r.POST("/categories", categoryHandler.CreateCategory)
 	r.GET("/categories", categoryHandler.GetAllCategories)
 	r.PATCH("/categories/:categoryID", categoryHandler.UpdateCategory)
+	r.DELETE("/categories/:categoryID", categoryHandler.DeleteCategory)
 
 	log.Fatalln(r.Run(":" + port))
 }
