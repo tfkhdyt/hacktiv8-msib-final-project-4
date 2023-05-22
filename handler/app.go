@@ -31,6 +31,7 @@ func StartApp() {
 	r.DELETE("/categories/:categoryID", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.DeleteCategory)
 
 	r.POST("/products", authService.Authentication(), authService.AdminAuthorization(), productHandler.CreateProduct)
+	r.GET("/products", authService.Authentication(), productHandler.GetAllProducts)
 
 	log.Fatalln(r.Run(":" + port))
 }
