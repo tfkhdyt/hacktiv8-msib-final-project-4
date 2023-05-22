@@ -25,3 +25,13 @@ func (p *productPG) CreateProduct(product *entity.Product) (*entity.Product, err
 
 	return product, nil
 }
+
+func (p *productPG) GetAllProducts() ([]entity.Product, errs.MessageErr) {
+	var products []entity.Product
+	if err := p.db.Find(&products).Error; err != nil {
+		log.Println("Error:", err.Error())
+		return nil, errs.NewInternalServerError("Failed to get all products")
+	}
+
+	return products, nil
+}

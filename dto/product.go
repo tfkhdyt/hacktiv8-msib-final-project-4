@@ -38,3 +38,5 @@ type CreateProductResponse struct {
 	CategoryID uint      `json:"category_id"`
 	CreatedAt  time.Time `json:"created_at"`
 }
+
+type GetAllProductsResponse CreateProductResponse

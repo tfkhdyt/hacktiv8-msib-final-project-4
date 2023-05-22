@@ -9,6 +9,7 @@ import (
 
 type ProductService interface {
 	CreateProduct(payload *dto.CreateProductRequest) (*dto.CreateProductResponse, errs.MessageErr)
+	GetAllProducts() ([]dto.GetAllProductsResponse, errs.MessageErr)
 }
 
 type productService struct {
@@ -40,6 +41,27 @@ func (p *productService) CreateProduct(payload *dto.CreateProductRequest) (*dto.
 		Stock:      createdProduct.Stock,
 		CategoryID: createdProduct.CategoryID,
 		CreatedAt:  createdProduct.CreatedAt,
+	}
+
+	return response, nil
+}
+
+func (p *productService) GetAllProducts() ([]dto.GetAllProductsResponse, errs.MessageErr) {
+	products, err := p.productRepo.GetAllProducts()
+	if err != nil {
+		return nil, err
+	}
+
+	response := []dto.GetAllProductsResponse{}
+	for _, product := range products {
+		response = append(response, dto.GetAllProductsResponse{
+			ID:         product.ID,
+			Title:      product.Title,
+			Price:      product.Price,
+			Stock:      product.Stock,
+			CategoryID: product.CategoryID,
+			CreatedAt:  product.CreatedAt,
+		})
 	}
 
 	return response, nil

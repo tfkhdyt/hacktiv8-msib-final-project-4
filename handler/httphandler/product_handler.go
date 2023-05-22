@@ -33,3 +33,13 @@ func (p *ProductHandler) CreateProduct(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, createdProduct)
 }
+
+func (p *ProductHandler) GetAllProducts(ctx *gin.Context) {
+	products, err := p.productService.GetAllProducts()
+	if err != nil {
+		ctx.JSON(err.StatusCode(), err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, products)
+}

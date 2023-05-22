@@ -7,4 +7,5 @@ import (
 
 type ProductRepository interface {
 	CreateProduct(product *entity.Product) (*entity.Product, errs.MessageErr)
+	GetAllProducts() ([]entity.Product, errs.MessageErr)
 }
