@@ -32,6 +32,14 @@ type GetAllCategoriesResponse struct {
 	Products          []ProductData `json:"products"`
 }
 
+type GetCategoryByIDResponse struct {
+	ID                uint      `json:"id"`
+	Type              string    `json:"type"`
+	SoldProductAmount uint      `json:"sold_product_amount"`
+	CreatedAt         time.Time `json:"created_at"`
+	UpdatedAt         time.Time `json:"updated_at"`
+}
+
 type UpdateCategoryRequest CreateCategoryRequest
 
 func (c *UpdateCategoryRequest) ToEntity() *entity.Category {

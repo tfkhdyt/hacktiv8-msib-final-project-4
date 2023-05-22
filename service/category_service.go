@@ -9,6 +9,7 @@ import (
 type CategoryService interface {
 	CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr)
 	GetAllCategories() ([]dto.GetAllCategoriesResponse, errs.MessageErr)
+	GetCategoryByID(id uint) (*dto.GetCategoryByIDResponse, errs.MessageErr)
 	UpdateCategory(id uint, payload *dto.UpdateCategoryRequest) (*dto.UpdateCategoryResponse, errs.MessageErr)
 	DeleteCategory(id uint) (*dto.DeleteCategoryResponse, errs.MessageErr)
 }
@@ -54,6 +55,23 @@ func (c *categoryService) GetAllCategories() ([]dto.GetAllCategoriesResponse, er
 			CreatedAt:         category.CreatedAt,
 			UpdatedAt:         category.UpdatedAt,
 		})
+	}
+
+	return response, nil
+}
+
+func (c *categoryService) GetCategoryByID(id uint) (*dto.GetCategoryByIDResponse, errs.MessageErr) {
+	category, err := c.categoryRepo.GetCategoryByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	response := &dto.GetCategoryByIDResponse{
+		ID:                category.ID,
+		Type:              category.Type,
+		SoldProductAmount: category.SoldProductAmount,
+		CreatedAt:         category.CreatedAt,
+		UpdatedAt:         category.UpdatedAt,
 	}
 
 	return response, nil
