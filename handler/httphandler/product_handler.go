@@ -69,3 +69,21 @@ func (p *ProductHandler) UpdateProduct(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, updatedProduct)
 }
+
+func (p *ProductHandler) DeleteProduct(ctx *gin.Context) {
+	productID := ctx.Param("productID")
+	productIDUint, err := strconv.ParseUint(productID, 10, 32)
+	if err != nil {
+		validationError := errs.NewBadRequest("Product id should be in unsigned integer")
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	response, errDelete := p.productService.DeleteProduct(uint(productIDUint))
+	if errDelete != nil {
+		ctx.JSON(errDelete.StatusCode(), errDelete)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, response)
+}

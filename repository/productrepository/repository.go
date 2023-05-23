@@ -10,4 +10,5 @@ type ProductRepository interface {
 	GetAllProducts() ([]entity.Product, errs.MessageErr)
 	GetProductByID(id uint) (*entity.Product, errs.MessageErr)
 	UpdateProduct(oldProduct *entity.Product, newProduct *entity.Product) (*entity.Product, errs.MessageErr)
+	DeleteProduct(product *entity.Product) errs.MessageErr
 }

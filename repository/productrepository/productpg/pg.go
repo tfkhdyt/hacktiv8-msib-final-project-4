@@ -53,3 +53,11 @@ func (p *productPG) UpdateProduct(oldProduct *entity.Product, newProduct *entity
 
 	return oldProduct, nil
 }
+
+func (p *productPG) DeleteProduct(product *entity.Product) errs.MessageErr {
+	if err := p.db.Delete(product).Error; err != nil {
+		return errs.NewInternalServerError(fmt.Sprintf("Failed to delete product with id %d", product.ID))
+	}
+
+	return nil
+}
