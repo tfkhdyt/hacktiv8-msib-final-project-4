@@ -8,4 +8,6 @@ import (
 type ProductRepository interface {
 	CreateProduct(product *entity.Product) (*entity.Product, errs.MessageErr)
 	GetAllProducts() ([]entity.Product, errs.MessageErr)
+	GetProductByID(id uint) (*entity.Product, errs.MessageErr)
+	UpdateProduct(oldProduct *entity.Product, newProduct *entity.Product) (*entity.Product, errs.MessageErr)
 }

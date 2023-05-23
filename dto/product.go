@@ -40,3 +40,28 @@ type CreateProductResponse struct {
 }
 
 type GetAllProductsResponse CreateProductResponse
+
+type UpdateProductRequest CreateProductRequest
+
+func (p *UpdateProductRequest) ToEntity() *entity.Product {
+	return &entity.Product{
+		Title:      p.Title,
+		Price:      p.Price,
+		Stock:      p.Stock,
+		CategoryID: p.CategoryID,
+	}
+}
+
+type UpdateProductResponse struct {
+	Product ProductDataWithCategoryID `json:"product"`
+}
+
+type ProductDataWithCategoryID struct {
+	ID         uint      `json:"id"`
+	Title      string    `json:"title"`
+	Price      string    `json:"price"`
+	Stock      uint      `json:"stock"`
+	CategoryID uint      `json:"category_id"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}

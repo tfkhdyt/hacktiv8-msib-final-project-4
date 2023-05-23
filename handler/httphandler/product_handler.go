@@ -5,6 +5,7 @@ import (
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/service"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -42,4 +43,29 @@ func (p *ProductHandler) GetAllProducts(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, products)
+}
+
+func (p *ProductHandler) UpdateProduct(ctx *gin.Context) {
+	productID := ctx.Param("productID")
+	productIDUint, err := strconv.ParseUint(productID, 10, 32)
+	if err != nil {
+		validationError := errs.NewBadRequest("Product id should be in unsigned integer")
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	var reqBody dto.UpdateProductRequest
+	if err := ctx.ShouldBindJSON(&reqBody); err != nil {
+		validationError := errs.NewUnprocessableEntity(err.Error())
+		ctx.JSON(validationError.StatusCode(), validationError)
+		return
+	}
+
+	updatedProduct, errUpdate := p.productService.UpdateProduct(uint(productIDUint), &reqBody)
+	if errUpdate != nil {
+		ctx.JSON(errUpdate.StatusCode(), errUpdate)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, updatedProduct)
 }

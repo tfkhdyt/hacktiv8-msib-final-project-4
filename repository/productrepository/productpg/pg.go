@@ -1,6 +1,7 @@
 package productpg
 
 import (
+	"fmt"
 	"hacktiv8-msib-final-project-4/entity"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/productrepository"
@@ -34,4 +35,21 @@ func (p *productPG) GetAllProducts() ([]entity.Product, errs.MessageErr) {
 	}
 
 	return products, nil
+}
+
+func (p *productPG) GetProductByID(id uint) (*entity.Product, errs.MessageErr) {
+	var product *entity.Product
+	if err := p.db.First(&product, id).Error; err != nil {
+		return nil, errs.NewNotFound(fmt.Sprintf("Product with id %d is not found", id))
+	}
+
+	return product, nil
+}
+
+func (p *productPG) UpdateProduct(oldProduct *entity.Product, newProduct *entity.Product) (*entity.Product, errs.MessageErr) {
+	if err := p.db.Model(oldProduct).Updates(newProduct).Error; err != nil {
+		return nil, errs.NewInternalServerError(fmt.Sprintf("Failed to update product with id %d", oldProduct.ID))
+	}
+
+	return oldProduct, nil
 }
