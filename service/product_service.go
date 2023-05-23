@@ -23,6 +23,7 @@ type ProductService interface {
 	CreateProduct(payload *dto.CreateProductRequest) (*dto.CreateProductResponse, errs.MessageErr)
 	GetAllProducts() ([]dto.GetAllProductsResponse, errs.MessageErr)
 	UpdateProduct(id uint, payload *dto.UpdateProductRequest) (*dto.UpdateProductResponse, errs.MessageErr)
+	DeleteProduct(id uint) (*dto.DeleteProductResponse, errs.MessageErr)
 }
 
 type productService struct {
@@ -106,6 +107,23 @@ func (p *productService) UpdateProduct(id uint, payload *dto.UpdateProductReques
 			CreatedAt:  updatedProduct.CreatedAt,
 			UpdatedAt:  updatedProduct.UpdatedAt,
 		},
+	}
+
+	return response, nil
+}
+
+func (p *productService) DeleteProduct(id uint) (*dto.DeleteProductResponse, errs.MessageErr) {
+	product, err := p.productRepo.GetProductByID(id)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := p.productRepo.DeleteProduct(product); err != nil {
+		return nil, err
+	}
+
+	response := &dto.DeleteProductResponse{
+		Message: "Product has been successfully deleted",
 	}
 
 	return response, nil

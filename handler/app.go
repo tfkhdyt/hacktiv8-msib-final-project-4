@@ -33,6 +33,7 @@ func StartApp() {
 	r.POST("/products", authService.Authentication(), authService.AdminAuthorization(), productHandler.CreateProduct)
 	r.GET("/products", authService.Authentication(), productHandler.GetAllProducts)
 	r.PUT("/products/:productID", authService.Authentication(), authService.AdminAuthorization(), productHandler.UpdateProduct)
+	r.DELETE("/products/:productID", authService.Authentication(), authService.AdminAuthorization(), productHandler.DeleteProduct)
 
 	log.Fatalln(r.Run(":" + port))
 }
