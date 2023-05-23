@@ -4,6 +4,7 @@ import (
 	"hacktiv8-msib-final-project-4/dto"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/categoryrepository"
+	"hacktiv8-msib-final-project-4/repository/productrepository"
 )
 
 type CategoryService interface {
@@ -16,10 +17,11 @@ type CategoryService interface {
 
 type categoryService struct {
 	categoryRepo categoryrepository.CategoryRepository
+	productRepo  productrepository.ProductRepository
 }
 
-func NewCategoryService(categoryRepo categoryrepository.CategoryRepository) CategoryService {
-	return &categoryService{categoryRepo}
+func NewCategoryService(categoryRepo categoryrepository.CategoryRepository, productRepo productrepository.ProductRepository) CategoryService {
+	return &categoryService{categoryRepo, productRepo}
 }
 
 func (c *categoryService) CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr) {
@@ -48,12 +50,30 @@ func (c *categoryService) GetAllCategories() ([]dto.GetAllCategoriesResponse, er
 
 	response := []dto.GetAllCategoriesResponse{}
 	for _, category := range categories {
+		products, err := c.productRepo.GetAllProductsByCategoryID(category.ID)
+		if err != nil {
+			return nil, err
+		}
+
+		productsData := []dto.ProductData{}
+		for _, product := range products {
+			productsData = append(productsData, dto.ProductData{
+				ID:        product.ID,
+				Title:     product.Title,
+				Price:     product.Price,
+				Stock:     product.Stock,
+				CreatedAt: product.CreatedAt,
+				UpdatedAt: product.UpdatedAt,
+			})
+		}
+
 		response = append(response, dto.GetAllCategoriesResponse{
 			ID:                category.ID,
 			Type:              category.Type,
 			SoldProductAmount: category.SoldProductAmount,
 			CreatedAt:         category.CreatedAt,
 			UpdatedAt:         category.UpdatedAt,
+			Products:          productsData,
 		})
 	}
 

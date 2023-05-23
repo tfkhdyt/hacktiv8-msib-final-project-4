@@ -37,6 +37,16 @@ func (p *productPG) GetAllProducts() ([]entity.Product, errs.MessageErr) {
 	return products, nil
 }
 
+func (p *productPG) GetAllProductsByCategoryID(categoryID uint) ([]entity.Product, errs.MessageErr) {
+	var products []entity.Product
+	if err := p.db.Find(&products, "category_id = ?", categoryID).Error; err != nil {
+		log.Println("Error:", err.Error())
+		return nil, errs.NewInternalServerError("Failed to get all products")
+	}
+
+	return products, nil
+}
+
 func (p *productPG) GetProductByID(id uint) (*entity.Product, errs.MessageErr) {
 	var product *entity.Product
 	if err := p.db.First(&product, id).Error; err != nil {
