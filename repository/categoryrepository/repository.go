@@ -3,6 +3,8 @@ package categoryrepository
 import (
 	"hacktiv8-msib-final-project-4/entity"
 	"hacktiv8-msib-final-project-4/pkg/errs"
+
+	"gorm.io/gorm"
 )
 
 type CategoryRepository interface {
@@ -11,4 +13,5 @@ type CategoryRepository interface {
 	GetCategoryByID(id uint) (*entity.Category, errs.MessageErr)
 	UpdateCategory(oldCategory *entity.Category, newCategory *entity.Category) (*entity.Category, errs.MessageErr)
 	DeleteCategory(category *entity.Category) errs.MessageErr
+	IncrementSoldProductAmount(id uint, value uint, tx *gorm.DB) errs.MessageErr
 }

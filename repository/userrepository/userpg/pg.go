@@ -62,3 +62,17 @@ func (u *userPG) TopUp(id uint, balance uint) (*entity.User, errs.MessageErr) {
 
 	return user, nil
 }
+
+func (u *userPG) DecrementBalance(id uint, value uint, tx *gorm.DB) errs.MessageErr {
+	user, err := u.GetUserByID(id)
+	if err != nil {
+		return err
+	}
+
+	user.Balance -= value
+	if err := tx.Save(user).Error; err != nil {
+		return errs.NewInternalServerError("Failed to decrement balance")
+	}
+
+	return nil
+}

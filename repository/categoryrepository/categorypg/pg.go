@@ -62,3 +62,17 @@ func (c *categoryPG) DeleteCategory(category *entity.Category) errs.MessageErr {
 
 	return nil
 }
+
+func (c *categoryPG) IncrementSoldProductAmount(id uint, value uint, tx *gorm.DB) errs.MessageErr {
+	category, err := c.GetCategoryByID(id)
+	if err != nil {
+		return err
+	}
+
+	category.SoldProductAmount += value
+	if err := tx.Save(category).Error; err != nil {
+		return errs.NewInternalServerError("Failed to increment sold product amount")
+	}
+
+	return nil
+}

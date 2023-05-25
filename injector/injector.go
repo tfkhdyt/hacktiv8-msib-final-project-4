@@ -5,4 +5,5 @@ func init() {
 	initUser()
 	initAuth()
 	initCategoryAndProduct()
+	initTransactionHistory()
 }
