@@ -10,7 +10,10 @@ import (
 )
 
 type TransactionHistoryService interface {
-	CreateTransaction(user *entity.User, payload *dto.CreateTransactionRequest) (*dto.CreateTransactionResponse, errs.MessageErr)
+	CreateTransaction(
+		user *entity.User,
+		payload *dto.CreateTransactionRequest,
+	) (*dto.CreateTransactionResponse, errs.MessageErr)
 }
 
 type transactionHistoryService struct {
@@ -25,7 +28,10 @@ func NewTransactionHistoryService(
 	return &transactionHistoryService{transactionRepo, productRepo}
 }
 
-func (t *transactionHistoryService) CreateTransaction(user *entity.User, payload *dto.CreateTransactionRequest) (*dto.CreateTransactionResponse, errs.MessageErr) {
+func (t *transactionHistoryService) CreateTransaction(
+	user *entity.User,
+	payload *dto.CreateTransactionRequest,
+) (*dto.CreateTransactionResponse, errs.MessageErr) {
 	transaction := payload.ToEntity()
 
 	product, err := t.productRepo.GetProductByID(transaction.ProductID)
@@ -36,11 +42,21 @@ func (t *transactionHistoryService) CreateTransaction(user *entity.User, payload
 	transaction.TotalPrice = product.Price * transaction.Quantity
 
 	if product.Stock < transaction.Quantity {
-		return nil, errs.NewBadRequest(fmt.Sprintf("Insufficient product stock. There are only %d items left in stock", product.Stock))
+		return nil, errs.NewBadRequest(
+			fmt.Sprintf(
+				"Insufficient product stock. There are only %d items left in stock",
+				product.Stock,
+			),
+		)
 	}
 
 	if user.Balance < transaction.TotalPrice {
-		return nil, errs.NewBadRequest(fmt.Sprintf("Your balance is not sufficient. Your balance is %s", ac.FormatMoney(user.Balance)))
+		return nil, errs.NewBadRequest(
+			fmt.Sprintf(
+				"Your balance is not sufficient. Your balance is %s",
+				ac.FormatMoney(user.Balance),
+			),
+		)
 	}
 
 	createdTransaction, err := t.transactionRepo.CreateTransaction(user, product, transaction)

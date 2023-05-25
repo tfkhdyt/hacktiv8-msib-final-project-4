@@ -6,5 +6,9 @@ import (
 )
 
 type TransactionHistoryRepository interface {
-	CreateTransaction(user *entity.User, product *entity.Product, transaction *entity.TransactionHistory) (*entity.TransactionHistory, errs.MessageErr)
+	CreateTransaction(
+		user *entity.User,
+		product *entity.Product,
+		transaction *entity.TransactionHistory,
+	) (*entity.TransactionHistory, errs.MessageErr)
 }

@@ -11,7 +11,10 @@ type CategoryService interface {
 	CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr)
 	GetAllCategories() ([]dto.GetAllCategoriesResponse, errs.MessageErr)
 	GetCategoryByID(id uint) (*dto.GetCategoryByIDResponse, errs.MessageErr)
-	UpdateCategory(id uint, payload *dto.UpdateCategoryRequest) (*dto.UpdateCategoryResponse, errs.MessageErr)
+	UpdateCategory(
+		id uint,
+		payload *dto.UpdateCategoryRequest,
+	) (*dto.UpdateCategoryResponse, errs.MessageErr)
 	DeleteCategory(id uint) (*dto.DeleteCategoryResponse, errs.MessageErr)
 }
 
@@ -20,11 +23,16 @@ type categoryService struct {
 	productRepo  productrepository.ProductRepository
 }
 
-func NewCategoryService(categoryRepo categoryrepository.CategoryRepository, productRepo productrepository.ProductRepository) CategoryService {
+func NewCategoryService(
+	categoryRepo categoryrepository.CategoryRepository,
+	productRepo productrepository.ProductRepository,
+) CategoryService {
 	return &categoryService{categoryRepo, productRepo}
 }
 
-func (c *categoryService) CreateCategory(payload *dto.CreateCategoryRequest) (*dto.CreateCategoryResponse, errs.MessageErr) {
+func (c *categoryService) CreateCategory(
+	payload *dto.CreateCategoryRequest,
+) (*dto.CreateCategoryResponse, errs.MessageErr) {
 	category := payload.ToEntity()
 
 	createdCategory, err := c.categoryRepo.CreateCategory(category)
@@ -97,7 +105,10 @@ func (c *categoryService) GetCategoryByID(id uint) (*dto.GetCategoryByIDResponse
 	return response, nil
 }
 
-func (c *categoryService) UpdateCategory(id uint, payload *dto.UpdateCategoryRequest) (*dto.UpdateCategoryResponse, errs.MessageErr) {
+func (c *categoryService) UpdateCategory(
+	id uint,
+	payload *dto.UpdateCategoryRequest,
+) (*dto.UpdateCategoryResponse, errs.MessageErr) {
 	oldCategory, err := c.categoryRepo.GetCategoryByID(id)
 	if err != nil {
 		return nil, err

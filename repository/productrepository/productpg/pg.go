@@ -37,7 +37,9 @@ func (p *productPG) GetAllProducts() ([]entity.Product, errs.MessageErr) {
 	return products, nil
 }
 
-func (p *productPG) GetAllProductsByCategoryID(categoryID uint) ([]entity.Product, errs.MessageErr) {
+func (p *productPG) GetAllProductsByCategoryID(
+	categoryID uint,
+) ([]entity.Product, errs.MessageErr) {
 	var products []entity.Product
 	if err := p.db.Find(&products, "category_id = ?", categoryID).Error; err != nil {
 		log.Println("Error:", err.Error())
@@ -56,9 +58,14 @@ func (p *productPG) GetProductByID(id uint) (*entity.Product, errs.MessageErr) {
 	return product, nil
 }
 
-func (p *productPG) UpdateProduct(oldProduct *entity.Product, newProduct *entity.Product) (*entity.Product, errs.MessageErr) {
+func (p *productPG) UpdateProduct(
+	oldProduct *entity.Product,
+	newProduct *entity.Product,
+) (*entity.Product, errs.MessageErr) {
 	if err := p.db.Model(oldProduct).Updates(newProduct).Error; err != nil {
-		return nil, errs.NewInternalServerError(fmt.Sprintf("Failed to update product with id %d", oldProduct.ID))
+		return nil, errs.NewInternalServerError(
+			fmt.Sprintf("Failed to update product with id %d", oldProduct.ID),
+		)
 	}
 
 	return oldProduct, nil
@@ -66,7 +73,9 @@ func (p *productPG) UpdateProduct(oldProduct *entity.Product, newProduct *entity
 
 func (p *productPG) DeleteProduct(product *entity.Product) errs.MessageErr {
 	if err := p.db.Delete(product).Error; err != nil {
-		return errs.NewInternalServerError(fmt.Sprintf("Failed to delete product with id %d", product.ID))
+		return errs.NewInternalServerError(
+			fmt.Sprintf("Failed to delete product with id %d", product.ID),
+		)
 	}
 
 	return nil

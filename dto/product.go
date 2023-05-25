@@ -15,9 +15,9 @@ type ProductData struct {
 }
 
 type CreateProductRequest struct {
-	Title      string `json:"title" binding:"required"`
-	Price      uint   `json:"price" binding:"required,max=50000000,min=0"`
-	Stock      uint   `json:"stock" binding:"required,min=5"`
+	Title      string `json:"title"       binding:"required"`
+	Price      uint   `json:"price"       binding:"required,max=50000000,min=0"`
+	Stock      uint   `json:"stock"       binding:"required,min=5"`
 	CategoryID uint   `json:"category_id"`
 }
 

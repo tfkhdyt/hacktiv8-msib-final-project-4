@@ -14,7 +14,9 @@ type TransactionHistoryHandler struct {
 	transactionService service.TransactionHistoryService
 }
 
-func NewTransactionHistoryHandler(transactionService service.TransactionHistoryService) *TransactionHistoryHandler {
+func NewTransactionHistoryHandler(
+	transactionService service.TransactionHistoryService,
+) *TransactionHistoryHandler {
 	return &TransactionHistoryHandler{transactionService}
 }
 

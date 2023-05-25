@@ -46,10 +46,15 @@ func (c *categoryPG) GetCategoryByID(id uint) (*entity.Category, errs.MessageErr
 	return &category, nil
 }
 
-func (c *categoryPG) UpdateCategory(oldCategory *entity.Category, newCategory *entity.Category) (*entity.Category, errs.MessageErr) {
+func (c *categoryPG) UpdateCategory(
+	oldCategory *entity.Category,
+	newCategory *entity.Category,
+) (*entity.Category, errs.MessageErr) {
 	if err := c.db.Model(oldCategory).Updates(newCategory).Error; err != nil {
 		log.Println("Error:", err.Error())
-		return nil, errs.NewInternalServerError(fmt.Sprintf("Failed to update category with id %d", oldCategory.ID))
+		return nil, errs.NewInternalServerError(
+			fmt.Sprintf("Failed to update category with id %d", oldCategory.ID),
+		)
 	}
 
 	return oldCategory, nil
@@ -57,7 +62,9 @@ func (c *categoryPG) UpdateCategory(oldCategory *entity.Category, newCategory *e
 
 func (c *categoryPG) DeleteCategory(category *entity.Category) errs.MessageErr {
 	if err := c.db.Delete(category).Error; err != nil {
-		return errs.NewInternalServerError(fmt.Sprintf("Failed to delete category with id %d", category.ID))
+		return errs.NewInternalServerError(
+			fmt.Sprintf("Failed to delete category with id %d", category.ID),
+		)
 	}
 
 	return nil

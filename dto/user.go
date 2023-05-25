@@ -7,8 +7,8 @@ import (
 
 type RegisterRequest struct {
 	FullName string `json:"full_name" binding:"required"`
-	Email    string `json:"email" binding:"email,required"`
-	Password string `json:"password" binding:"required,min=6"`
+	Email    string `json:"email"     binding:"email,required"`
+	Password string `json:"password"  binding:"required,min=6"`
 }
 
 func (r *RegisterRequest) ToEntity() *entity.User {
@@ -31,7 +31,7 @@ type RegisterResponse struct {
 }
 
 type LoginRequest struct {
-	Email    string `json:"email" binding:"email,required"`
+	Email    string `json:"email"    binding:"email,required"`
 	Password string `json:"password" binding:"required,min=6"`
 }
 
