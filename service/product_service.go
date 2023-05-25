@@ -22,7 +22,10 @@ var (
 type ProductService interface {
 	CreateProduct(payload *dto.CreateProductRequest) (*dto.CreateProductResponse, errs.MessageErr)
 	GetAllProducts() ([]dto.GetAllProductsResponse, errs.MessageErr)
-	UpdateProduct(id uint, payload *dto.UpdateProductRequest) (*dto.UpdateProductResponse, errs.MessageErr)
+	UpdateProduct(
+		id uint,
+		payload *dto.UpdateProductRequest,
+	) (*dto.UpdateProductResponse, errs.MessageErr)
 	DeleteProduct(id uint) (*dto.DeleteProductResponse, errs.MessageErr)
 }
 
@@ -31,11 +34,16 @@ type productService struct {
 	categoryRepo categoryrepository.CategoryRepository
 }
 
-func NewProductService(productRepo productrepository.ProductRepository, categoryRepo categoryrepository.CategoryRepository) ProductService {
+func NewProductService(
+	productRepo productrepository.ProductRepository,
+	categoryRepo categoryrepository.CategoryRepository,
+) ProductService {
 	return &productService{productRepo, categoryRepo}
 }
 
-func (p *productService) CreateProduct(payload *dto.CreateProductRequest) (*dto.CreateProductResponse, errs.MessageErr) {
+func (p *productService) CreateProduct(
+	payload *dto.CreateProductRequest,
+) (*dto.CreateProductResponse, errs.MessageErr) {
 	product := payload.ToEntity()
 
 	if _, checkCategoryErr := p.categoryRepo.GetCategoryByID(product.CategoryID); checkCategoryErr != nil {
@@ -80,7 +88,10 @@ func (p *productService) GetAllProducts() ([]dto.GetAllProductsResponse, errs.Me
 	return response, nil
 }
 
-func (p *productService) UpdateProduct(id uint, payload *dto.UpdateProductRequest) (*dto.UpdateProductResponse, errs.MessageErr) {
+func (p *productService) UpdateProduct(
+	id uint,
+	payload *dto.UpdateProductRequest,
+) (*dto.UpdateProductResponse, errs.MessageErr) {
 	product := payload.ToEntity()
 
 	if _, checkCategoryErr := p.categoryRepo.GetCategoryByID(product.CategoryID); checkCategoryErr != nil {

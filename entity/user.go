@@ -14,12 +14,12 @@ import (
 
 type User struct {
 	gorm.Model
-	FullName             string               `binding:"required" gorm:"not null"`
-	Email                string               `binding:"email,required" gorm:"unique;not null"`
-	Password             string               `binding:"required,min=6" gorm:"not null"`
+	FullName             string               `binding:"required"                      gorm:"not null"`
+	Email                string               `binding:"email,required"                gorm:"unique;not null"`
+	Password             string               `binding:"required,min=6"                gorm:"not null"`
 	Role                 string               `binding:"required,oneof=admin customer" gorm:"not null"`
-	Balance              uint                 `binding:"required,min=0,max=100000000" gorm:"not null;default:0"`
-	TransactionHistories []TransactionHistory `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	Balance              uint                 `binding:"required,min=0,max=100000000"  gorm:"not null;default:0"`
+	TransactionHistories []TransactionHistory `                                        gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 var jwtSecret = os.Getenv("JWT_SECRET")

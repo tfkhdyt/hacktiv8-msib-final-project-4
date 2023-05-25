@@ -26,15 +26,50 @@ func StartApp() {
 	r.POST("/users/login", userHandler.Login)
 	r.PATCH("/users/topup", authService.Authentication(), userHandler.TopUp)
 
-	r.POST("/categories", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.CreateCategory)
-	r.GET("/categories", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.GetAllCategories)
-	r.PATCH("/categories/:categoryID", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.UpdateCategory)
-	r.DELETE("/categories/:categoryID", authService.Authentication(), authService.AdminAuthorization(), categoryHandler.DeleteCategory)
+	r.POST(
+		"/categories",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		categoryHandler.CreateCategory,
+	)
+	r.GET(
+		"/categories",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		categoryHandler.GetAllCategories,
+	)
+	r.PATCH(
+		"/categories/:categoryID",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		categoryHandler.UpdateCategory,
+	)
+	r.DELETE(
+		"/categories/:categoryID",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		categoryHandler.DeleteCategory,
+	)
 
-	r.POST("/products", authService.Authentication(), authService.AdminAuthorization(), productHandler.CreateProduct)
+	r.POST(
+		"/products",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		productHandler.CreateProduct,
+	)
 	r.GET("/products", authService.Authentication(), productHandler.GetAllProducts)
-	r.PUT("/products/:productID", authService.Authentication(), authService.AdminAuthorization(), productHandler.UpdateProduct)
-	r.DELETE("/products/:productID", authService.Authentication(), authService.AdminAuthorization(), productHandler.DeleteProduct)
+	r.PUT(
+		"/products/:productID",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		productHandler.UpdateProduct,
+	)
+	r.DELETE(
+		"/products/:productID",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		productHandler.DeleteProduct,
+	)
 
 	r.POST("/transactions", authService.Authentication(), transactionHandler.CreateTransaction)
 

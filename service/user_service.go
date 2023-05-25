@@ -21,7 +21,9 @@ func NewUserService(userRepo userrepository.UserRepository) UserService {
 	return &userService{userRepo}
 }
 
-func (u *userService) Register(payload *dto.RegisterRequest) (*dto.RegisterResponse, errs.MessageErr) {
+func (u *userService) Register(
+	payload *dto.RegisterRequest,
+) (*dto.RegisterResponse, errs.MessageErr) {
 	user := payload.ToEntity()
 
 	if err := user.HashPassword(); err != nil {
@@ -65,14 +67,20 @@ func (u *userService) Login(payload *dto.LoginRequest) (*dto.LoginResponse, errs
 	return response, nil
 }
 
-func (u *userService) TopUp(id uint, payload *dto.TopUpRequest) (*dto.TopUpResponse, errs.MessageErr) {
+func (u *userService) TopUp(
+	id uint,
+	payload *dto.TopUpRequest,
+) (*dto.TopUpResponse, errs.MessageErr) {
 	result, err := u.userRepo.TopUp(id, payload.Balance)
 	if err != nil {
 		return nil, err
 	}
 
 	response := &dto.TopUpResponse{
-		Message: fmt.Sprintf("Your balance has been successfully updated to %s", ac.FormatMoney(result.Balance)),
+		Message: fmt.Sprintf(
+			"Your balance has been successfully updated to %s",
+			ac.FormatMoney(result.Balance),
+		),
 	}
 
 	return response, nil

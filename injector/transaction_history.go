@@ -14,7 +14,12 @@ var (
 )
 
 func initTransactionHistory() {
-	transactionRepo = transactionhistorypg.NewTransactionHistoryPG(db, productRepo, userRepo, categoryRepo)
+	transactionRepo = transactionhistorypg.NewTransactionHistoryPG(
+		db,
+		productRepo,
+		userRepo,
+		categoryRepo,
+	)
 	transactionService = service.NewTransactionHistoryService(transactionRepo, productRepo)
 	transactionHandler = httphandler.NewTransactionHistoryHandler(transactionService)
 }

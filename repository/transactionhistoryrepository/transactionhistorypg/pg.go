@@ -39,7 +39,11 @@ func NewTransactionHistoryPG(
 	return &transactionHistoryPG{db, productRepo, userRepo, categoryRepo}
 }
 
-func (t *transactionHistoryPG) CreateTransaction(user *entity.User, product *entity.Product, transaction *entity.TransactionHistory) (*entity.TransactionHistory, errs.MessageErr) {
+func (t *transactionHistoryPG) CreateTransaction(
+	user *entity.User,
+	product *entity.Product,
+	transaction *entity.TransactionHistory,
+) (*entity.TransactionHistory, errs.MessageErr) {
 	tx := t.db.Begin()
 	defer func() {
 		if r := recover(); r != nil {
