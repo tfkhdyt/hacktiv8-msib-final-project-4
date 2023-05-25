@@ -10,7 +10,18 @@ import (
 	"hacktiv8-msib-final-project-4/repository/userrepository"
 	"log"
 
+	"github.com/leekchan/accounting"
 	"gorm.io/gorm"
+)
+
+var (
+	lc = accounting.LocaleInfo["IDR"]
+	ac = accounting.Accounting{
+		Symbol:    "Rp",
+		Precision: 2,
+		Thousand:  lc.ThouSep,
+		Decimal:   lc.DecSep,
+	}
 )
 
 type transactionHistoryPG struct {
@@ -37,7 +48,7 @@ func (t *transactionHistoryPG) CreateTransaction(user *entity.User, product *ent
 	}
 
 	if user.Balance < transaction.TotalPrice {
-		return nil, errs.NewBadRequest("Your balance is not sufficient")
+		return nil, errs.NewBadRequest(fmt.Sprintf("Your balance is not sufficient. Your balance is %s", ac.FormatMoney(user.Balance)))
 	}
 
 	tx := t.db.Begin()
