@@ -3,6 +3,8 @@ package productrepository
 import (
 	"hacktiv8-msib-final-project-4/entity"
 	"hacktiv8-msib-final-project-4/pkg/errs"
+
+	"gorm.io/gorm"
 )
 
 type ProductRepository interface {
@@ -12,4 +14,5 @@ type ProductRepository interface {
 	GetAllProductsByCategoryID(categoryID uint) ([]entity.Product, errs.MessageErr)
 	UpdateProduct(oldProduct *entity.Product, newProduct *entity.Product) (*entity.Product, errs.MessageErr)
 	DeleteProduct(product *entity.Product) errs.MessageErr
+	DecrementStock(id uint, quantity uint, tx *gorm.DB) errs.MessageErr
 }

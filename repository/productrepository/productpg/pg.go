@@ -71,3 +71,17 @@ func (p *productPG) DeleteProduct(product *entity.Product) errs.MessageErr {
 
 	return nil
 }
+
+func (p *productPG) DecrementStock(id uint, quantity uint, tx *gorm.DB) errs.MessageErr {
+	product, err := p.GetProductByID(id)
+	if err != nil {
+		return err
+	}
+
+	product.Stock -= quantity
+	if err := tx.Save(product).Error; err != nil {
+		return errs.NewInternalServerError("Failed to decrement stock")
+	}
+
+	return nil
+}

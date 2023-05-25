@@ -72,7 +72,7 @@ func (u *userService) TopUp(id uint, payload *dto.TopUpRequest) (*dto.TopUpRespo
 	}
 
 	response := &dto.TopUpResponse{
-		Message: fmt.Sprintf("Your balance has been successfully updated to Rp %d", result.Balance),
+		Message: fmt.Sprintf("Your balance has been successfully updated to %s", ac.FormatMoney(result.Balance)),
 	}
 
 	return response, nil
