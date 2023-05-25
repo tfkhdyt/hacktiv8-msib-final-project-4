@@ -1,7 +1,6 @@
 package transactionhistorypg
 
 import (
-	"fmt"
 	"hacktiv8-msib-final-project-4/entity"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/categoryrepository"
@@ -41,16 +40,6 @@ func NewTransactionHistoryPG(
 }
 
 func (t *transactionHistoryPG) CreateTransaction(user *entity.User, product *entity.Product, transaction *entity.TransactionHistory) (*entity.TransactionHistory, errs.MessageErr) {
-	transaction.TotalPrice = product.Price * transaction.Quantity
-
-	if product.Stock < transaction.Quantity {
-		return nil, errs.NewBadRequest(fmt.Sprintf("Insufficient product stock. There are only %d items left in stock", product.Stock))
-	}
-
-	if user.Balance < transaction.TotalPrice {
-		return nil, errs.NewBadRequest(fmt.Sprintf("Your balance is not sufficient. Your balance is %s", ac.FormatMoney(user.Balance)))
-	}
-
 	tx := t.db.Begin()
 	defer func() {
 		if r := recover(); r != nil {
