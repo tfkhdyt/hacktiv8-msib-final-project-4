@@ -1,13 +1,14 @@
 package httphandler
 
 import (
-	"hacktiv8-msib-final-project-4/dto"
-	"hacktiv8-msib-final-project-4/pkg/errs"
-	"hacktiv8-msib-final-project-4/service"
 	"net/http"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+
+	"hacktiv8-msib-final-project-4/dto"
+	"hacktiv8-msib-final-project-4/pkg/errs"
+	"hacktiv8-msib-final-project-4/service"
 )
 
 type CategoryHandler struct {

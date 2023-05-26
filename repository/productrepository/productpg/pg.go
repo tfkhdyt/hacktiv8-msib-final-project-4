@@ -2,12 +2,13 @@ package productpg
 
 import (
 	"fmt"
-	"hacktiv8-msib-final-project-4/entity"
-	"hacktiv8-msib-final-project-4/pkg/errs"
-	"hacktiv8-msib-final-project-4/repository/productrepository"
 	"log"
 
 	"gorm.io/gorm"
+
+	"hacktiv8-msib-final-project-4/entity"
+	"hacktiv8-msib-final-project-4/pkg/errs"
+	"hacktiv8-msib-final-project-4/repository/productrepository"
 )
 
 type productPG struct {
