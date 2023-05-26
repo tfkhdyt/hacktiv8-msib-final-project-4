@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/golang-jwt/jwt/v5"
+	jwt "github.com/golang-jwt/jwt/v5"
 	"github.com/leekchan/accounting"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"

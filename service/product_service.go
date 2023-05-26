@@ -1,12 +1,12 @@
 package service
 
 import (
+	"github.com/leekchan/accounting"
+
 	"hacktiv8-msib-final-project-4/dto"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/categoryrepository"
 	"hacktiv8-msib-final-project-4/repository/productrepository"
-
-	"github.com/leekchan/accounting"
 )
 
 var (

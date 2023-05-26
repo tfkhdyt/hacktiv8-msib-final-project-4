@@ -1,11 +1,12 @@
 package handler
 
 import (
-	"hacktiv8-msib-final-project-4/injector"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
+
+	"hacktiv8-msib-final-project-4/injector"
 )
 
 func StartApp() {

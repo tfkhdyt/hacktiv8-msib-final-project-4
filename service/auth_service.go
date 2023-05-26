@@ -1,11 +1,11 @@
 package service
 
 import (
+	"github.com/gin-gonic/gin"
+
 	"hacktiv8-msib-final-project-4/entity"
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/userrepository"
-
-	"github.com/gin-gonic/gin"
 )
 
 type AuthService interface {
