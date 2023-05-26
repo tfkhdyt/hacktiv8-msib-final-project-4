@@ -44,3 +44,20 @@ func (t *TransactionHistoryHandler) CreateTransaction(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusCreated, createdTransaction)
 }
+
+func (t *TransactionHistoryHandler) GetTransactionsByUserID(ctx *gin.Context) {
+	userData, ok := ctx.MustGet("userData").(*entity.User)
+	if !ok {
+		newError := errs.NewBadRequest("Failed to get user data")
+		ctx.JSON(newError.StatusCode(), newError)
+		return
+	}
+
+	transactions, err := t.transactionService.GetTransactionsByUserID(userData.ID)
+	if err != nil {
+		ctx.JSON(err.StatusCode(), err)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, transactions)
+}

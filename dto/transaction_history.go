@@ -24,3 +24,12 @@ type TransactionBill struct {
 	Quantity     uint   `json:"quantity"`
 	ProductTitle string `json:"product_title"`
 }
+
+type GetTransactionsByUserIDResponse struct {
+	ID         uint                                     `json:"id"`
+	ProductID  uint                                     `json:"product_id"`
+	UserID     uint                                     `json:"user_id"`
+	Quantity   uint                                     `json:"quantity"`
+	TotalPrice uint                                     `json:"total_price"`
+	Product    ProductDataWithCategoryIDAndIntegerPrice `json:"product"`
+}

@@ -11,4 +11,6 @@ type TransactionHistoryRepository interface {
 		product *entity.Product,
 		transaction *entity.TransactionHistory,
 	) (*entity.TransactionHistory, errs.MessageErr)
+
+	GetTransactionsByUserID(userID uint) ([]entity.TransactionHistory, errs.MessageErr)
 }

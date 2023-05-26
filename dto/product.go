@@ -67,6 +67,16 @@ type ProductDataWithCategoryID struct {
 	UpdatedAt  time.Time `json:"updated_at"`
 }
 
+type ProductDataWithCategoryIDAndIntegerPrice struct {
+	ID         uint      `json:"id"`
+	Title      string    `json:"title"`
+	Price      uint      `json:"price"`
+	Stock      uint      `json:"stock"`
+	CategoryID uint      `json:"category_id"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+}
+
 type DeleteProductResponse struct {
 	Message string `json:"message"`
 }
