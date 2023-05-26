@@ -1,15 +1,28 @@
 package entity
 
 import (
-	"hacktiv8-msib-final-project-4/pkg/errs"
+	"fmt"
 	"log"
 	"os"
 	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/leekchan/accounting"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
+
+	"hacktiv8-msib-final-project-4/pkg/errs"
+)
+
+var (
+	lc = accounting.LocaleInfo["IDR"]
+	ac = accounting.Accounting{
+		Symbol:    "Rp",
+		Precision: 2,
+		Thousand:  lc.ThouSep,
+		Decimal:   lc.DecSep,
+	}
 )
 
 type User struct {
@@ -19,7 +32,7 @@ type User struct {
 	Password             string               `binding:"required,min=6"                gorm:"not null"`
 	Role                 string               `binding:"required,oneof=admin customer" gorm:"not null"`
 	Balance              uint                 `binding:"required,min=0,max=100000000"  gorm:"not null;default:0"`
-	TransactionHistories []TransactionHistory `                                        gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	TransactionHistories []TransactionHistory `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 }
 
 var jwtSecret = os.Getenv("JWT_SECRET")
@@ -106,6 +119,19 @@ func (u *User) bindTokenToUserEntity(claim jwt.MapClaims) errs.MessageErr {
 		return errs.NewUnauthenticated("Token doesn't contains userId")
 	}
 	u.ID = uint(id)
+
+	return nil
+}
+
+func (u *User) CheckBalance(totalPrice uint) errs.MessageErr {
+	if u.Balance < totalPrice {
+		return errs.NewBadRequest(
+			fmt.Sprintf(
+				"Your balance is not sufficient. Your balance is %s",
+				ac.FormatMoney(u.Balance),
+			),
+		)
+	}
 
 	return nil
 }
