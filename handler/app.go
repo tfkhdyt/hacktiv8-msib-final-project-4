@@ -23,10 +23,12 @@ func StartApp() {
 	transactionHandler := injector.InitializeTransactionHistoryHandler()
 	authService := injector.InitializeAuthService()
 
+	// users routes
 	r.POST("/users/register", userHandler.Register)
 	r.POST("/users/login", userHandler.Login)
 	r.PATCH("/users/topup", authService.Authentication(), userHandler.TopUp)
 
+	// categories routes
 	r.POST(
 		"/categories",
 		authService.Authentication(),
@@ -52,6 +54,7 @@ func StartApp() {
 		categoryHandler.DeleteCategory,
 	)
 
+	// products routes
 	r.POST(
 		"/products",
 		authService.Authentication(),
@@ -72,7 +75,13 @@ func StartApp() {
 		productHandler.DeleteProduct,
 	)
 
+	// transaction histories routes
 	r.POST("/transactions", authService.Authentication(), transactionHandler.CreateTransaction)
+	r.GET(
+		"/transactions/my-transactions",
+		authService.Authentication(),
+		transactionHandler.GetTransactionsByUserID,
+	)
 
 	log.Fatalln(r.Run(":" + port))
 }

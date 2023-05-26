@@ -13,6 +13,8 @@ type TransactionHistoryService interface {
 		user *entity.User,
 		payload *dto.CreateTransactionRequest,
 	) (*dto.CreateTransactionResponse, errs.MessageErr)
+
+	GetTransactionsByUserID(userID uint) ([]dto.GetTransactionsByUserIDResponse, errs.MessageErr)
 }
 
 type transactionHistoryService struct {
@@ -60,6 +62,40 @@ func (t *transactionHistoryService) CreateTransaction(
 			Quantity:     createdTransaction.Quantity,
 			ProductTitle: product.Title,
 		},
+	}
+
+	return response, nil
+}
+
+func (t *transactionHistoryService) GetTransactionsByUserID(userID uint) ([]dto.GetTransactionsByUserIDResponse, errs.MessageErr) {
+	transactions, err := t.transactionRepo.GetTransactionsByUserID(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	response := []dto.GetTransactionsByUserIDResponse{}
+	for _, transaction := range transactions {
+		product, err := t.productRepo.GetProductByID(transaction.ProductID)
+		if err != nil {
+			return nil, err
+		}
+
+		response = append(response, dto.GetTransactionsByUserIDResponse{
+			ID:         transaction.ID,
+			ProductID:  transaction.ProductID,
+			UserID:     transaction.UserID,
+			Quantity:   transaction.Quantity,
+			TotalPrice: transaction.TotalPrice,
+			Product: dto.ProductDataWithCategoryIDAndIntegerPrice{
+				ID:         product.ID,
+				Title:      product.Title,
+				Price:      product.Price,
+				Stock:      product.Stock,
+				CategoryID: product.CategoryID,
+				CreatedAt:  product.CreatedAt,
+				UpdatedAt:  product.UpdatedAt,
+			},
+		})
 	}
 
 	return response, nil

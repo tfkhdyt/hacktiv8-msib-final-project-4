@@ -1,6 +1,7 @@
 package transactionhistorypg
 
 import (
+	"fmt"
 	"log"
 
 	"github.com/leekchan/accounting"
@@ -79,4 +80,18 @@ func (t *transactionHistoryPG) CreateTransaction(
 	}
 
 	return transaction, nil
+}
+
+func (t *transactionHistoryPG) GetTransactionsByUserID(userID uint) ([]entity.TransactionHistory, errs.MessageErr) {
+	var transactions []entity.TransactionHistory
+	if err := t.db.Find(&transactions, "user_id = ?", userID).Error; err != nil {
+		return nil, errs.NewInternalServerError(
+			fmt.Sprintf(
+				"Failed to get transaction histories of user with id %d",
+				userID,
+			),
+		)
+	}
+
+	return transactions, nil
 }
