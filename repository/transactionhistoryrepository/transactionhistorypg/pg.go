@@ -95,3 +95,12 @@ func (t *transactionHistoryPG) GetTransactionsByUserID(userID uint) ([]entity.Tr
 
 	return transactions, nil
 }
+
+func (t *transactionHistoryPG) GetAllTransactions() ([]entity.TransactionHistory, errs.MessageErr) {
+	var transactions []entity.TransactionHistory
+	if err := t.db.Find(&transactions).Error; err != nil {
+		return nil, errs.NewInternalServerError("Failed to get all transactions")
+	}
+
+	return transactions, nil
+}

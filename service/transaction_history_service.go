@@ -6,6 +6,7 @@ import (
 	"hacktiv8-msib-final-project-4/pkg/errs"
 	"hacktiv8-msib-final-project-4/repository/productrepository"
 	"hacktiv8-msib-final-project-4/repository/transactionhistoryrepository"
+	"hacktiv8-msib-final-project-4/repository/userrepository"
 )
 
 type TransactionHistoryService interface {
@@ -15,18 +16,22 @@ type TransactionHistoryService interface {
 	) (*dto.CreateTransactionResponse, errs.MessageErr)
 
 	GetTransactionsByUserID(userID uint) ([]dto.GetTransactionsByUserIDResponse, errs.MessageErr)
+
+	GetAllTransactions() ([]dto.GetAllTransactionsResponse, errs.MessageErr)
 }
 
 type transactionHistoryService struct {
 	transactionRepo transactionhistoryrepository.TransactionHistoryRepository
 	productRepo     productrepository.ProductRepository
+	userRepo        userrepository.UserRepository
 }
 
 func NewTransactionHistoryService(
 	transactionRepo transactionhistoryrepository.TransactionHistoryRepository,
 	productRepo productrepository.ProductRepository,
+	userRepo userrepository.UserRepository,
 ) TransactionHistoryService {
-	return &transactionHistoryService{transactionRepo, productRepo}
+	return &transactionHistoryService{transactionRepo, productRepo, userRepo}
 }
 
 func (t *transactionHistoryService) CreateTransaction(
@@ -94,6 +99,53 @@ func (t *transactionHistoryService) GetTransactionsByUserID(userID uint) ([]dto.
 				CategoryID: product.CategoryID,
 				CreatedAt:  product.CreatedAt,
 				UpdatedAt:  product.UpdatedAt,
+			},
+		})
+	}
+
+	return response, nil
+}
+
+func (t *transactionHistoryService) GetAllTransactions() ([]dto.GetAllTransactionsResponse, errs.MessageErr) {
+	transactions, err := t.transactionRepo.GetAllTransactions()
+	if err != nil {
+		return nil, err
+	}
+
+	response := []dto.GetAllTransactionsResponse{}
+	for _, transaction := range transactions {
+		product, err := t.productRepo.GetProductByID(transaction.ProductID)
+		if err != nil {
+			return nil, err
+		}
+
+		user, errGetUser := t.userRepo.GetUserByID(transaction.UserID)
+		if errGetUser != nil {
+			return nil, errGetUser
+		}
+
+		response = append(response, dto.GetAllTransactionsResponse{
+			ID:         transaction.ID,
+			ProductID:  transaction.ProductID,
+			UserID:     transaction.UserID,
+			Quantity:   transaction.Quantity,
+			TotalPrice: transaction.TotalPrice,
+			Product: dto.ProductDataWithCategoryIDAndIntegerPrice{
+				ID:         product.ID,
+				Title:      product.Title,
+				Price:      product.Price,
+				Stock:      product.Stock,
+				CategoryID: product.CategoryID,
+				CreatedAt:  product.CreatedAt,
+				UpdatedAt:  product.UpdatedAt,
+			},
+			User: dto.UserData{
+				ID:        user.ID,
+				Email:     user.Email,
+				FullName:  user.FullName,
+				Balance:   user.Balance,
+				CreatedAt: user.CreatedAt,
+				UpdatedAt: user.UpdatedAt,
 			},
 		})
 	}

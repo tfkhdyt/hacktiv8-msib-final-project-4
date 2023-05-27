@@ -82,6 +82,12 @@ func StartApp() {
 		authService.Authentication(),
 		transactionHandler.GetTransactionsByUserID,
 	)
+	r.GET(
+		"/transactions/all-transactions",
+		authService.Authentication(),
+		authService.AdminAuthorization(),
+		transactionHandler.GetAllTransactions,
+	)
 
 	log.Fatalln(r.Run(":" + port))
 }
