@@ -26,27 +26,7 @@ func StartApp() {
 
 	router.NewUserRouter(r, userHandler, authService).Route()
 	router.NewCategoryRouter(r, categoryHandler, authService).Route()
-
-	// products routes
-	r.POST(
-		"/products",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		productHandler.CreateProduct,
-	)
-	r.GET("/products", authService.Authentication(), productHandler.GetAllProducts)
-	r.PUT(
-		"/products/:productID",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		productHandler.UpdateProduct,
-	)
-	r.DELETE(
-		"/products/:productID",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		productHandler.DeleteProduct,
-	)
+	router.NewProductRouter(r, productHandler, authService).Route()
 
 	// transaction histories routes
 	r.POST("/transactions", authService.Authentication(), transactionHandler.CreateTransaction)
