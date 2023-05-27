@@ -20,7 +20,7 @@ func initTransactionHistory() {
 		userRepo,
 		categoryRepo,
 	)
-	transactionService = service.NewTransactionHistoryService(transactionRepo, productRepo)
+	transactionService = service.NewTransactionHistoryService(transactionRepo, productRepo, userRepo)
 	transactionHandler = httphandler.NewTransactionHistoryHandler(transactionService)
 }
 

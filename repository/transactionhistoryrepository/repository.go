@@ -13,4 +13,6 @@ type TransactionHistoryRepository interface {
 	) (*entity.TransactionHistory, errs.MessageErr)
 
 	GetTransactionsByUserID(userID uint) ([]entity.TransactionHistory, errs.MessageErr)
+
+	GetAllTransactions() ([]entity.TransactionHistory, errs.MessageErr)
 }
