@@ -13,7 +13,11 @@ type UserRouter struct {
 	authService service.AuthService
 }
 
-func NewUserRouter(r *gin.Engine, userHandler *httphandler.UserHandler, authService service.AuthService) *UserRouter {
+func NewUserRouter(
+	r *gin.Engine,
+	userHandler *httphandler.UserHandler,
+	authService service.AuthService,
+) *UserRouter {
 	return &UserRouter{r, userHandler, authService}
 }
 
