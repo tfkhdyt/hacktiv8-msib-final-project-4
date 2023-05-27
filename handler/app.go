@@ -25,32 +25,7 @@ func StartApp() {
 	authService := injector.InitializeAuthService()
 
 	router.NewUserRouter(r, userHandler, authService).Route()
-
-	// categories routes
-	r.POST(
-		"/categories",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		categoryHandler.CreateCategory,
-	)
-	r.GET(
-		"/categories",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		categoryHandler.GetAllCategories,
-	)
-	r.PATCH(
-		"/categories/:categoryID",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		categoryHandler.UpdateCategory,
-	)
-	r.DELETE(
-		"/categories/:categoryID",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		categoryHandler.DeleteCategory,
-	)
+	router.NewCategoryRouter(r, categoryHandler, authService).Route()
 
 	// products routes
 	r.POST(
