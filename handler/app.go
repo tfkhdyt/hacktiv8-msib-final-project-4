@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 
 	"hacktiv8-msib-final-project-4/injector"
+	"hacktiv8-msib-final-project-4/router"
 )
 
 func StartApp() {
@@ -23,10 +24,7 @@ func StartApp() {
 	transactionHandler := injector.InitializeTransactionHistoryHandler()
 	authService := injector.InitializeAuthService()
 
-	// users routes
-	r.POST("/users/register", userHandler.Register)
-	r.POST("/users/login", userHandler.Login)
-	r.PATCH("/users/topup", authService.Authentication(), userHandler.TopUp)
+	router.NewUserRouter(r, userHandler, authService).Route()
 
 	// categories routes
 	r.POST(
