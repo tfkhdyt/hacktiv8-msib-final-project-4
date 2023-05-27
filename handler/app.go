@@ -27,20 +27,7 @@ func StartApp() {
 	router.NewUserRouter(r, userHandler, authService).Route()
 	router.NewCategoryRouter(r, categoryHandler, authService).Route()
 	router.NewProductRouter(r, productHandler, authService).Route()
-
-	// transaction histories routes
-	r.POST("/transactions", authService.Authentication(), transactionHandler.CreateTransaction)
-	r.GET(
-		"/transactions/my-transactions",
-		authService.Authentication(),
-		transactionHandler.GetTransactionsByUserID,
-	)
-	r.GET(
-		"/transactions/all-transactions",
-		authService.Authentication(),
-		authService.AdminAuthorization(),
-		transactionHandler.GetAllTransactions,
-	)
+	router.NewTransactionRouter(r, transactionHandler, authService).Route()
 
 	log.Fatalln(r.Run(":" + port))
 }
