@@ -1,4 +1,4 @@
-# Shopping Store - Final Project 2
+# Shopping Store - Final Project 4
 
 ## Anggota
 
