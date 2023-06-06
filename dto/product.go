@@ -36,7 +36,7 @@ type CreateProductResponse struct {
 	Title      string    `json:"title"`
 	Price      uint      `json:"price"`
 	Stock      uint      `json:"stock"`
-	CategoryID uint      `json:"category_id"`
+	CategoryID uint      `json:"category_Id"`
 	CreatedAt  time.Time `json:"created_at"`
 }
 
