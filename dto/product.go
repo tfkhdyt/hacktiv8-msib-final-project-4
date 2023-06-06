@@ -62,9 +62,9 @@ type ProductDataWithCategoryID struct {
 	Title      string    `json:"title"`
 	Price      string    `json:"price"`
 	Stock      uint      `json:"stock"`
-	CategoryID uint      `json:"category_id"`
-	CreatedAt  time.Time `json:"created_at"`
-	UpdatedAt  time.Time `json:"updated_at"`
+	CategoryID uint      `json:"CategoryId"`
+	CreatedAt  time.Time `json:"createdAt"`
+	UpdatedAt  time.Time `json:"updatedAt"`
 }
 
 type ProductDataWithCategoryIDAndIntegerPrice struct {
