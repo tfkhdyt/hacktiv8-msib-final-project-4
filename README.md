@@ -8,4 +8,4 @@
 
 ## Demo
 
-https://mygram-production-7962.up.railway.app/
+https://shopping-store-production.up.railway.app/
