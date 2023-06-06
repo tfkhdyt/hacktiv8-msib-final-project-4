@@ -14,5 +14,5 @@ type TransactionHistoryRepository interface {
 
 	GetTransactionsByUserID(userID uint) ([]entity.TransactionHistory, errs.MessageErr)
 
-	GetAllTransactions() ([]entity.TransactionHistory, errs.MessageErr)
+	GetUserTransactions() ([]entity.TransactionHistory, errs.MessageErr)
 }

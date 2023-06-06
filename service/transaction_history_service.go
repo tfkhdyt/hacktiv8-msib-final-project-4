@@ -17,7 +17,7 @@ type TransactionHistoryService interface {
 
 	GetTransactionsByUserID(userID uint) ([]dto.GetTransactionsByUserIDResponse, errs.MessageErr)
 
-	GetAllTransactions() ([]dto.GetAllTransactionsResponse, errs.MessageErr)
+	GetUserTransactions() ([]dto.GetUserTransactionsResponse, errs.MessageErr)
 }
 
 type transactionHistoryService struct {
@@ -106,13 +106,13 @@ func (t *transactionHistoryService) GetTransactionsByUserID(userID uint) ([]dto.
 	return response, nil
 }
 
-func (t *transactionHistoryService) GetAllTransactions() ([]dto.GetAllTransactionsResponse, errs.MessageErr) {
-	transactions, err := t.transactionRepo.GetAllTransactions()
+func (t *transactionHistoryService) GetUserTransactions() ([]dto.GetUserTransactionsResponse, errs.MessageErr) {
+	transactions, err := t.transactionRepo.GetUserTransactions()
 	if err != nil {
 		return nil, err
 	}
 
-	response := []dto.GetAllTransactionsResponse{}
+	response := []dto.GetUserTransactionsResponse{}
 	for _, transaction := range transactions {
 		product, err := t.productRepo.GetProductByID(transaction.ProductID)
 		if err != nil {
@@ -124,7 +124,7 @@ func (t *transactionHistoryService) GetAllTransactions() ([]dto.GetAllTransactio
 			return nil, errGetUser
 		}
 
-		response = append(response, dto.GetAllTransactionsResponse{
+		response = append(response, dto.GetUserTransactionsResponse{
 			ID:         transaction.ID,
 			ProductID:  transaction.ProductID,
 			UserID:     transaction.UserID,
