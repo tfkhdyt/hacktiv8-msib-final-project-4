@@ -31,7 +31,7 @@ type GetTransactionsByUserIDResponse struct {
 	UserID     uint                                     `json:"user_id"`
 	Quantity   uint                                     `json:"quantity"`
 	TotalPrice uint                                     `json:"total_price"`
-	Product    ProductDataWithCategoryIDAndIntegerPrice `json:"product"`
+	Product    ProductDataWithCategoryIDAndIntegerPrice `json:"Product"`
 }
 
 type GetAllTransactionsResponse struct {
