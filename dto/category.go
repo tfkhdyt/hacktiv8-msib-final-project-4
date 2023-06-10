@@ -30,7 +30,7 @@ type GetAllCategoriesResponse struct {
 	SoldProductAmount uint          `json:"sold_product_amount"`
 	CreatedAt         time.Time     `json:"created_at"`
 	UpdatedAt         time.Time     `json:"updated_at"`
-	Products          []ProductData `json:"Products"`
+	Products          []ProductData `json:"products"`
 }
 
 type GetCategoryByIDResponse struct {

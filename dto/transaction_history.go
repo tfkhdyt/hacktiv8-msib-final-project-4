@@ -40,6 +40,6 @@ type GetUserTransactionsResponse struct {
 	UserID     uint                                     `json:"user_id"`
 	Quantity   uint                                     `json:"quantity"`
 	TotalPrice uint                                     `json:"total_price"`
-	Product    ProductDataWithCategoryIDAndIntegerPrice `json:"Product"`
+	Product    ProductDataWithCategoryIDAndIntegerPrice `json:"product"`
 	User       UserData                                 `json:"user"`
 }
