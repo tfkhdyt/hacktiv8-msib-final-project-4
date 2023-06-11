@@ -62,8 +62,8 @@ func (t *TransactionHistoryHandler) GetTransactionsByUserID(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, transactions)
 }
 
-func (t *TransactionHistoryHandler) GetAllTransactions(ctx *gin.Context) {
-	transactions, err := t.transactionService.GetAllTransactions()
+func (t *TransactionHistoryHandler) GetUserTransactions(ctx *gin.Context) {
+	transactions, err := t.transactionService.GetUserTransactions()
 	if err != nil {
 		ctx.JSON(err.StatusCode(), err)
 		return

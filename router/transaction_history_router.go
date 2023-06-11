@@ -33,9 +33,9 @@ func (t *TransactionRouter) Route() {
 		t.transactionHandler.GetTransactionsByUserID,
 	)
 	t.r.GET(
-		"/transactions/all-transactions",
+		"/transactions/user-transactions",
 		t.authService.Authentication(),
 		t.authService.AdminAuthorization(),
-		t.transactionHandler.GetAllTransactions,
+		t.transactionHandler.GetUserTransactions,
 	)
 }
